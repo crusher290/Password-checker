@@ -39,10 +39,40 @@ class PasswordChecker:
     
 
     def has_swapcase_usernaem(self):
-        if self.username.swapcase not in self.password:
+        if self.username.swapcase() not in self.password:
             self.score += 1
         
     
     def replace_with_special_char(self):
-        ...
-    
+        special_character = {
+            "@" : "a",
+            "!" : "i",
+            "0" : "o",
+            "$" : "s"
+        }
+
+        username_ = self.username.lower()
+        password_ = self.password.lower()
+
+
+        for special_char , char in special_character.items():
+            username_ = self.username.replace(special_char, char)
+        
+        for special_char, char in special_character.items():
+            password_ = self.password.replace(special_char, char)
+        
+        if username_ in password_:
+            return None
+        else:
+            self.score += 1
+
+
+    def password_similar_common_passwords(self):
+        common_password = "123456", "12345678", "12345", "111111", "123456789", "qwerty", "asdfgh", "zxcvbnm", "password", "admin", "P@s$w0rd"
+
+        for common in common_password:
+            if common == self.password:
+                return
+            else:
+                self.score += 1
+
